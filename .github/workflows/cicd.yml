@@ -1,0 +1,5 @@
+name: student-management
+jobs:
+    build-test-job:
+        runs-on: ubuntu-latest
+        
