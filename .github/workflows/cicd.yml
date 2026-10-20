@@ -123,9 +123,9 @@ jobs:
           script: |
             set -e
 
-            ~/student-management-system/Student-Management
+            cd /home/ubuntu/student-management-system/Student-Management
 
-            git pull
+            echo "Deploying application..."
 
             docker compose pull
             docker compose up -d --remove-orphans
