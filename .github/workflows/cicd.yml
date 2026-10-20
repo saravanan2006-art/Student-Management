@@ -123,7 +123,7 @@ jobs:
           script: |
             set -e
 
-            cd ~/student-management
+            ~/student-management-system/Student-Management
 
             git pull
 
