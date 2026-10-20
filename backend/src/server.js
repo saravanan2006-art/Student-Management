@@ -7,7 +7,7 @@ const pool = require('./db');
 const { requireAuth, allowRoles } = require('./auth');
 
 const app = express();
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }));
+app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://15.252.238.141:5173' }));
 app.use(express.json({ limit: '1mb' }));
 
 const asyncRoute = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next);
