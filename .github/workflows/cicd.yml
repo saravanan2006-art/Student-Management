@@ -123,12 +123,9 @@ jobs:
           script: |
             set -e
 
-            cd /home/ubuntu/student-management-system
+            cd ~/student-management
 
-            echo "Deploying image tag: $IMAGE_TAG"
+            git pull
 
-            docker compose pull backend frontend
-
-            docker compose up -d --no-build --remove-orphans
-
-            docker compose ps
+            docker compose pull
+            docker compose up -d --remove-orphans
