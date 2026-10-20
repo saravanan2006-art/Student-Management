@@ -126,6 +126,6 @@ jobs:
             cd /home/ubuntu/Student-Management
 
             echo "Deploying application..."
-
+            docker compose down
             docker compose pull
             docker compose up -d --remove-orphans
