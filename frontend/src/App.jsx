@@ -45,7 +45,7 @@ function Login({ onLogin }) {
 function Shell({ user, onLogout, children }) {
   return <div className="app-shell">
     <aside className="sidebar">
-      <div className="side-brand"><div className="brand-mark small">S</div><div><b>CampusDesk</b><small>ACADEMIC PORTAL</small></div></div>
+      <div className="side-brand"><div className="brand-mark small">S</div><div><b>Student Management</b><small>ACADEMIC PORTAL</small></div></div>
       <div className="side-label">WORKSPACE</div>
       <div className="side-link active"><span>▦</span> Overview</div>
       <div className="side-bottom">
