@@ -27,7 +27,7 @@ function Login({ onLogin }) {
       <div className="brand-mark">S</div>
       <p className="eyebrow">ACADEMIC PORTAL</p>
       <h1>Student Management</h1>
-      <p className="muted">A single place for student records and results.</p>
+      <p className="muted">follow more.</p>
       <form onSubmit={submit} className="stack">
         <SelectField label="Login as" value={role} onChange={setRole} options={[
           { value: 'student', label: 'Student' }, { value: 'teacher', label: 'Teacher' }, { value: 'admin', label: 'Administrator' }
