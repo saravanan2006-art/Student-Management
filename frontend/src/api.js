@@ -1,4 +1,4 @@
-const API = 'http://15.252.238.141:4000/api';
+const API = 'http://13.204.88.179:4000/api';
 
 export async function api(path, options = {}) {
   const token = localStorage.getItem('sms_token');
