@@ -102,7 +102,6 @@ jobs:
             sarra006/student-frontend:latest
             sarra006/student-frontend:${{ github.sha }}
 
-  
   deploy-pannu:
     name: Deploy to EC2
     needs: publish-images
@@ -110,22 +109,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy application
-        uses: appleboy/ssh-action@v1
-        env:
-          IMAGE_TAG: ${{ github.sha }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Copy Compose file to EC2
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST_API }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           port: 22
-          envs: IMAGE_TAG
+          source: "docker-compose.yml"
+          target: "/home/ubuntu/Student-Management/"
+
+      - name: Deploy application
+        uses: appleboy/ssh-action@v1
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        with:
+          host: ${{ secrets.HOST_API }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY }}
+          port: 22
+          envs: IMAGE_TAG,DOCKERHUB_USERNAME,DOCKERHUB_TOKEN
           script: |
-            set -e
+            set -eu
 
             cd /home/ubuntu/Student-Management
 
-            echo "Deploying application..."
-            docker compose down
-            docker compose pull
-            docker compose up -d --remove-orphans
+            export IMAGE_TAG
+            export DOCKERHUB_USERNAME
+
+            echo "Deploying commit: $IMAGE_TAG"
+
+            # Authenticate to Docker Hub
+            echo "$DOCKERHUB_TOKEN" | docker login \
+              --username "$DOCKERHUB_USERNAME" \
+              --password-stdin
+
+            # Validate Compose configuration
+            docker compose config -q
+
+            # Download the exact images built for this commit
+            docker compose pull frontend backend
+
+            # Recreate changed containers without building on EC2
+            docker compose up -d --no-build --remove-orphans
+
+            docker compose ps
+
+            docker logout
