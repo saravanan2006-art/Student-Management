@@ -127,18 +127,18 @@ jobs:
         env:
           IMAGE_TAG: ${{ github.sha }}
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_PASSWORD }}
         with:
           host: ${{ secrets.HOST_API }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           port: 22
-          envs: IMAGE_TAG,DOCKERHUB_USERNAME,DOCKERHUB_TOKEN
+          envs: IMAGE_TAG,DOCKERHUB_USERNAME,DOCKERHUB_PASSWORD
           script: |
             set -e
 
             cd /home/ubuntu/Student-Management
-
+            docker compose down
             docker compose pull backend frontend
-            docker compose up -d --no-build --remove-orphans
+            docker compose up -d 
             docker compose ps
