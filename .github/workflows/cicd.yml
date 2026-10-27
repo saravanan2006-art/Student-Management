@@ -132,5 +132,5 @@ jobs:
             cd /home/ubuntu/Student-Management
 
             docker compose pull backend frontend
-            docker compose up -d --no-deps --force-recreate backend frontend
+            docker compose up -d 
             docker compose ps
