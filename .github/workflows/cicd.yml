@@ -139,13 +139,6 @@ jobs:
             set -e
             cd /home/ubuntu/Student-Management
 
-            echo "=== Docker Compose configuration ==="
-            docker compose config -q
-
-            echo "=== Logging into Docker Hub ==="
-            echo "$DOCKERHUB_TOKEN" | docker login \
-              --username "$DOCKERHUB_USERNAME" \
-              --password-stdin
 
             echo "=== Pulling backend and frontend images ==="
             docker compose pull backend frontend
