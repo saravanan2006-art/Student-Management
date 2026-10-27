@@ -21,7 +21,7 @@ services:
       retries: 20
 
   backend:
-    build: ./backend
+    image : sarra006/student-backend
     container_name: backend-container
     restart: always
     environment:
@@ -44,7 +44,7 @@ services:
     command: sh -c "npm run seed-admin && npm start"
 
   frontend:
-    build: ./frontend
+    image : sarra006/student-frontend
     container_name: frontend-container
     restart: always
     depends_on:

@@ -91,7 +91,6 @@ jobs:
           push: true
           tags: |
             sarra006/student-backend:latest
-            sarra006/student-backend:${{ github.sha }}
 
       - name: Build and push frontend
         uses: docker/build-push-action@v6
@@ -100,9 +99,7 @@ jobs:
           push: true
           tags: |
             sarra006/student-frontend:latest
-            sarra006/student-frontend:${{ github.sha }}
-
- 
+  
   deploy-pannu:
     name: Deploy to EC2
     needs: publish-images
@@ -123,36 +120,17 @@ jobs:
           source: docker-compose.yml
           target: /home/ubuntu/Student-Management
 
-      - name: Deploy application
-        uses: appleboy/ssh-action@v1
-        env:
-          IMAGE_TAG: ${{ github.sha }}
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Pull images and deploy on EC2
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.HOST_API }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           port: 22
-          envs: IMAGE_TAG,DOCKERHUB_USERNAME,DOCKERHUB_TOKEN
           script: |
             set -e
             cd /home/ubuntu/Student-Management
 
-
-            echo "=== Pulling backend and frontend images ==="
             docker compose pull backend frontend
-
-            echo "=== Starting updated application ==="
-            docker compose up -d --remove-orphans
-
-            echo "=== Container status ==="
+            docker compose up -d --no-deps --force-recreate backend frontend
             docker compose ps
-
-            echo "=== Backend logs ==="
-            docker compose logs --tail=50 backend
-
-            echo "=== Frontend logs ==="
-            docker compose logs --tail=50 frontend
-
-            docker logout
