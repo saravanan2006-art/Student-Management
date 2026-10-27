@@ -26,7 +26,7 @@ function Login({ onLogin }) {
     <section className="login-card">
       <div className="brand-mark">S</div>
       <p className="eyebrow">ACADEMIC PORTAL</p>
-      <h1>Student Management</h1>
+      <h1>Student System</h1>
       <p className="muted">follow more.</p>
       <form onSubmit={submit} className="stack">
         <SelectField label="Login as" value={role} onChange={setRole} options={[
