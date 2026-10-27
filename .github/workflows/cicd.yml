@@ -117,7 +117,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_KEY }}
           port: 22
-          source: docker-compose.yml
+          source: docker-compose.yml,database
           target: /home/ubuntu/Student-Management
 
       - name: Pull images and deploy on EC2
