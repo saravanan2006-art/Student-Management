@@ -135,29 +135,10 @@ jobs:
           port: 22
           envs: IMAGE_TAG,DOCKERHUB_USERNAME,DOCKERHUB_TOKEN
           script: |
-            set -eu
+            set -e
 
-            cd /home/ubuntu/Student-Management
+            cd /home/ubuntu/student-management-system
 
-            export IMAGE_TAG
-            export DOCKERHUB_USERNAME
-
-            echo "Deploying commit: $IMAGE_TAG"
-
-            # Authenticate to Docker Hub
-            echo "$DOCKERHUB_TOKEN" | docker login \
-              --username "$DOCKERHUB_USERNAME" \
-              --password-stdin
-
-            # Validate Compose configuration
-            docker compose config -q
-
-            # Download the exact images built for this commit
-            docker compose pull frontend backend
-
-            # Recreate changed containers without building on EC2
+            docker compose pull backend frontend
             docker compose up -d --no-build --remove-orphans
-
             docker compose ps
-
-            docker logout
