@@ -120,7 +120,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: 22
           source: "docker-compose.yml"
-          target: "/home/ubuntu/Student-Management/"
+          target: "/home/ubuntu/Student-Management"
 
       - name: Deploy application
         uses: appleboy/ssh-action@v1
@@ -137,7 +137,7 @@ jobs:
           script: |
             set -e
 
-            cd /home/ubuntu/student-management-system
+            cd /home/ubuntu/Student-Management
 
             docker compose pull backend frontend
             docker compose up -d --no-build --remove-orphans

@@ -50,7 +50,7 @@ services:
     depends_on:
       - backend
     environment:
-      VITE_API_URL: http://13.204.88.179:4000/api
+      VITE_API_URL: http://65.1.93.213:4000/api
     ports:
       - "5173:5173"
     networks:
